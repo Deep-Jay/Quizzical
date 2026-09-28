@@ -22,7 +22,7 @@ export default function App() {
     } else {
       setQuestions([]);
       setScore(0);
-      setSubmit(false);getQuestions
+      setSubmit(false);
       getQuestions();
     }
   }
