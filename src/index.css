@@ -1,0 +1,504 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+    color-scheme: dark;
+
+    /* Base palette */
+    --bg: #0E1322;
+    --surface: #1A2236;
+    --surface-hover: #232D45;
+    --surface-raised: #212B44;
+
+    --primary: #6675D9;
+    --primary-hover: #8A97F0;
+
+    --text: #F3F4F6;
+    --text-secondary: #AAB4C8;
+    --text-muted: #7A8599;
+
+    --border: #2A3550;
+    --border-strong: #3A4767;
+
+    --selected: #3D477F;
+    --correct: #34D399;
+    --incorrect: #F87171;
+
+    /* Derived colors — composed from the tokens above */
+    --text-on-accent: #FFFFFF;
+    --primary-contrast: var(--bg);
+    --primary-soft: color-mix(in oklab, var(--primary) 22%, transparent);
+    --correct-soft: color-mix(in oklab, var(--correct) 16%, transparent);
+    --incorrect-soft: color-mix(in oklab, var(--incorrect) 16%, transparent);
+    --backdrop: color-mix(in oklab, var(--surface) 82%, transparent);
+
+    /* Shape, elevation, motion */
+    --radius-sm: 10px;
+    --radius: 14px;
+    --radius-lg: 22px;
+    --radius-pill: 999px;
+    --shadow-card: inset 0 1px 0 rgb(255 255 255 / 4%), 0 20px 40px -28px rgb(0 0 0 / 90%);
+    --shadow-btn: 0 12px 26px -14px color-mix(in oklab, var(--primary) 80%, transparent);
+    --ring: 0 0 0 3px color-mix(in oklab, var(--primary) 45%, transparent);
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+    --dur: 180ms;
+
+    --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Karla", "Inter", sans-serif;
+
+    --page-max: 46rem;
+    --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(70rem 46rem at 8% -12%, color-mix(in oklab, var(--primary) 26%, transparent), transparent 62%),
+        radial-gradient(48rem 38rem at 96% 2%, color-mix(in oklab, var(--correct) 12%, transparent), transparent 58%);
+    background-repeat: no-repeat;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    line-height: 1.2;
+}
+
+:focus-visible {
+    outline: none;
+}
+
+/* ---------- Shell ---------- */
+
+main {
+    min-height: 100dvh;
+}
+
+.quiz {
+    width: min(100%, calc(var(--page-max) + 2 * var(--gutter)));
+    margin-inline: auto;
+    padding: clamp(1.5rem, 5vw, 3.5rem) var(--gutter) 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.quiz__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding-bottom: 0.25rem;
+}
+
+.quiz__title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(120deg, var(--primary-hover), var(--primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.quiz__meta {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.status {
+    padding: clamp(2rem, 8vw, 4rem) 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.quiz__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.875rem, 2.5vw, 1.25rem);
+}
+
+/* ---------- Question card ---------- */
+
+.question-card {
+    padding: clamp(1.125rem, 3.5vw, 2rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-card);
+}
+
+.question {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-bottom: 1.125rem;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.0625rem, 2.6vw, 1.3125rem);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+}
+
+.question__index {
+    flex: none;
+    display: grid;
+    place-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-top: 0.1em;
+    border-radius: 50%;
+    background-color: var(--primary-soft);
+    color: var(--primary-hover);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+}
+
+/* ---------- Answers ---------- */
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.answer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    min-height: 3.25rem;
+    padding: 0.8125rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--surface-hover);
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+    transition:
+        background-color var(--dur) var(--ease),
+        border-color var(--dur) var(--ease),
+        color var(--dur) var(--ease),
+        transform var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease);
+
+    &::before {
+        content: "";
+        flex: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid var(--border-strong);
+        border-radius: 50%;
+        transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+    }
+
+    > span {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    &::after {
+        content: "";
+        margin-left: auto;
+        font-size: 1rem;
+        font-weight: 700;
+        opacity: 0;
+        transition: opacity var(--dur) var(--ease);
+    }
+
+    &:has(input:focus-visible) {
+        box-shadow: var(--ring);
+    }
+
+    &:has(input:checked) {
+        background-color: color-mix(in oklab, var(--selected) 55%, var(--surface-hover));
+        border-color: var(--primary);
+        color: var(--text);
+
+        &::before {
+            border-color: var(--primary-hover);
+            background-color: var(--primary-hover);
+            box-shadow: inset 0 0 0 4px var(--surface-hover);
+        }
+    }
+}
+
+.answer input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (hover: hover) {
+    .answer:hover {
+        background-color: color-mix(in oklab, var(--selected) 28%, var(--surface-hover));
+        border-color: var(--primary);
+        color: var(--text);
+    }
+}
+
+/* Submitted state: correct / incorrect feedback */
+.is-submitted .answer {
+    cursor: default;
+
+    &::after {
+        opacity: 1;
+    }
+}
+
+.is-submitted .answer[data-correct="true"] {
+    background-color: var(--correct-soft);
+    border-color: var(--correct);
+    color: var(--text);
+
+    &::before {
+        border-color: color-mix(in oklab, var(--correct) 45%, transparent);
+    }
+
+    &::after {
+        content: "\2713";
+        color: var(--correct);
+    }
+}
+
+.is-submitted .answer[data-correct="false"]:has(input:checked) {
+    background-color: var(--incorrect-soft);
+    border-color: var(--incorrect);
+    color: var(--text);
+
+    &::before {
+        border-color: color-mix(in oklab, var(--incorrect) 45%, transparent);
+        background-color: var(--incorrect);
+        box-shadow: inset 0 0 0 4px var(--surface-hover);
+    }
+
+    &::after {
+        content: "\2715";
+        color: var(--incorrect);
+    }
+}
+
+/* ---------- Results bar ---------- */
+
+.results {
+    position: sticky;
+    bottom: 0.75rem;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.875rem 1.25rem;
+    margin-top: auto;
+    padding: 0.875rem 0.875rem 0.875rem clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--backdrop);
+    backdrop-filter: blur(14px) saturate(1.3);
+    box-shadow: var(--shadow-card);
+
+    &:not(:has(.result)) {
+        justify-content: flex-end;
+    }
+}
+
+.result {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.3;
+}
+
+.result strong {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 4vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* ---------- Button ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 11.5rem;
+    min-height: 3rem;
+    padding: 0.875rem 1.75rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    background-image: linear-gradient(180deg, var(--primary-hover), var(--primary));
+    color: var(--text-on-accent);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    box-shadow: var(--shadow-btn);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), filter var(--dur) var(--ease);
+
+    &:hover {
+        filter: brightness(1.08);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:focus-visible {
+        box-shadow: var(--ring), var(--shadow-btn);
+    }
+}
+
+/* ---------- Intro screen ---------- */
+
+.full-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.5rem;
+    padding: var(--gutter);
+    text-align: center;
+}
+
+.intro-screen {
+    overflow: hidden;
+    background-color: var(--bg);
+    animation: intro-in 420ms var(--ease) both;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(38rem, 90vmax);
+        aspect-ratio: 1;
+        translate: -50% -50%;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--primary-soft), transparent 68%);
+        pointer-events: none;
+    }
+
+    > * {
+        position: relative;
+    }
+}
+
+.intro-screen__title {
+    font-size: clamp(2.5rem, 12vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    background: linear-gradient(120deg, var(--primary-hover), var(--correct));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.intro-screen__tagline {
+    max-width: 30ch;
+    color: var(--text-secondary);
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+}
+
+.intro-screen__chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0.5rem;
+    list-style: none;
+}
+
+.chip {
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background-color: var(--surface);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.intro-screen .btn {
+    margin-top: 1rem;
+}
+
+@keyframes intro-in {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 30rem) {
+    .results {
+        flex-direction: column;
+        align-items: stretch;
+        bottom: 0.5rem;
+        text-align: center;
+
+        &:not(:has(.result)) {
+            justify-content: stretch;
+        }
+    }
+
+    .result {
+        justify-content: center;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (min-width: 48rem) {
+    .answers {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
